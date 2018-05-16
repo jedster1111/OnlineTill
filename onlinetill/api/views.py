@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
+from .models import MenuItem
 from rest_framework import viewsets
-from api.serializers import UserSerializer, GroupSerializer
+from api.serializers import UserSerializer, GroupSerializer, MenuItemSerializer
 
 # Create your views here.
 
@@ -19,3 +20,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+class MenuItemViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Menu Items to be viewed or edited
+    """
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerializer

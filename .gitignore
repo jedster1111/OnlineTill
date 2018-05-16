@@ -5,6 +5,7 @@ settings_secret.py
 settings_deployment.py
 *.sqlite3
 env/
+migrations/
 
 # User-specific files
 *.suo
