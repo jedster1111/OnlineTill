@@ -1,5 +1,4 @@
-"""
-onlinetill URL Configuration
+"""onlinetill URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -14,12 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include
-from django.urls import path
-from django.contrib import admin
+from django.conf.urls import url, include
+from rest_framework import routers
+from api import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
-    
-    path('api/', include('api.urls')),
-    path('admin/', admin.site.urls),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth', include('rest_framework.urls', namespace='rest_framework')),
 ]
