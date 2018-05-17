@@ -22,9 +22,18 @@
 
         <script src="https://fb.me/react-0.14.6.js"></script>
         <script src="https://fb.me/react-dom-0.14.6.js"></script>
-        <script>
-            ReactDOM.render(React.createElement('div', null, 'Hello World'),
-            document.getElementById('react-target'));
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+        <script type="text/babel">
+
+            var Hello = React.createClass({ render() { return (
+            <div>
+                <h1>Hello from Kode</h1>
+                <p>Maybe you prefer a hello from Adele</p>
+            </div>
+            ) } }); 
+
+            ReactDOM.render(<Hello/>, document.getElementById('react-target'));
         </script>
+
 </body>
 </html>
