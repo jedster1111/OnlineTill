@@ -26,13 +26,18 @@
         <script type="text/babel">
 
             var Hello = React.createClass({
+                getInitialState(){
+                    return {color: 'red'}
+                },
                 handleClick(){
-                    alert(this.props.children);
+                    this.setState({color:'blue'});
                 },
                 render() {
                     return (
                         <div>
-                            <h1 onClick={this.handleClick}>{this.props.message}</h1>
+                            <h1 style={% verbatim %}{{color: this.state.color}}{% endverbatim %}onClick={this.handleClick}>
+                                {this.props.message}
+                            </h1>
                             <p>{this.props.children}</p>
                         </div>
                 ) } }); 
