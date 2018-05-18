@@ -6,6 +6,7 @@ settings_deployment.py
 *.sqlite3
 env/
 migrations/
+node_modules
 
 # User-specific files
 *.suo
