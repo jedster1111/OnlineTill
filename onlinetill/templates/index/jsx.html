@@ -30,15 +30,16 @@
                     return (
                         <div>
                             <h1>{this.props.message}</h1>
+                            <p>{this.props.children}</p>
                         </div>
                 ) } }); 
 
             ReactDOM.render(
                 <div>
-                    <Hello message="First one"/>
-                    <Hello message="Second one"/>
-                    <Hello message="Third one"/>
-                    <Hello message="Fourth one"/>
+                    <Hello message="First one">what is this child?</Hello>
+                    <Hello message="Second one">Still not sure</Hello>
+                    <Hello message="Third one">Guess we'll see</Hello>
+                    <Hello message="Fourth one"></Hello>
                 </div>,
                 document.getElementById('react-target'));
         </script>
