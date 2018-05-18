@@ -26,10 +26,13 @@
         <script type="text/babel">
 
             var Hello = React.createClass({
+                handleClick(){
+                    alert(this.props.children);
+                },
                 render() {
                     return (
                         <div>
-                            <h1>{this.props.message}</h1>
+                            <h1 onClick={this.handleClick}>{this.props.message}</h1>
                             <p>{this.props.children}</p>
                         </div>
                 ) } }); 
