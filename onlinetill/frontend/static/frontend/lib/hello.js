@@ -16,6 +16,16 @@ var Hello = React.createClass({
                 'p',
                 null,
                 'Maybe you prefer a hello from Jed'
+            ),
+            React.createElement(
+                'p',
+                null,
+                'This page uses a compiled js file served statically, so runs faster than jsx page.'
+            ),
+            React.createElement(
+                'p',
+                null,
+                'babel --presets es2015,react --watch src/ --out-dir static/frontend/lib/'
             )
         );
     }
