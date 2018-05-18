@@ -18,11 +18,12 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 
-from . views import index, jsx
+from . views import index, jsx, jsx2
 
 urlpatterns = [
     path('', index, name="home"),
     path('jsx/', jsx, name="jsx"),
+    path('jsx2/', jsx2, name="jsx2"),
     path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
 ]

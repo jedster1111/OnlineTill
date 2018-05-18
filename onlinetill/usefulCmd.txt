@@ -1,0 +1,1 @@
+(env) C:\Coding\OnlineTill\OnlineTill\onlinetill\frontend>babel --presets es2015,react --watch src/ --out-dir static/frontend/lib/
