@@ -23,7 +23,26 @@
         <script src="https://fb.me/react-0.14.6.js"></script>
         <script src="https://fb.me/react-dom-0.14.6.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+        
         <script type="text/babel">
+            var messages = [
+                "Hello from one",
+                "Hey from me",
+                "Howdy from there",
+                "Greetings Human"
+            ]
+            var GreetBook = React.createClass({
+                render(){
+                    var hello = messages.map(function(item){
+                        return<Hello message={item}/>
+                    })
+                    return(
+                        <div>
+                            {hello}
+                        </div>
+                    )
+                }
+            })
 
             var Hello = React.createClass({
                 getInitialState(){
@@ -38,17 +57,11 @@
                             <h1 style={% verbatim %}{{color: this.state.color}}{% endverbatim %}onClick={this.handleClick}>
                                 {this.props.message}
                             </h1>
-                            <p>{this.props.children}</p>
                         </div>
                 ) } }); 
 
             ReactDOM.render(
-                <div>
-                    <Hello message="First one">what is this child?</Hello>
-                    <Hello message="Second one">Still not sure</Hello>
-                    <Hello message="Third one">Guess we'll see</Hello>
-                    <Hello message="Fourth one"></Hello>
-                </div>,
+                <GreetBook/>,
                 document.getElementById('react-target'));
         </script>
 
