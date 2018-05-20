@@ -25,7 +25,7 @@ SECRET_KEY = 'enter secret key here'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.159',]
 
 
 # Application definition
@@ -57,8 +57,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000/'
+    'localhost:3000/',
+    #'TheBeast-PC',
 )
 
 ROOT_URLCONF = 'onlinetill.urls'

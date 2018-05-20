@@ -7,7 +7,7 @@ class App extends Component {
 
   async componentDidMount(){
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/menuitem/');
+      const res = await fetch('http://192.168.1.159:8000/api/menuitem/');
       const menuitems = await res.json();
       this.setState({
         menuitems
@@ -24,8 +24,10 @@ class App extends Component {
           <div key={item.id}>
             <h1>{item.title}</h1>
             <span>{item.cost}</span>
+            <button>+1</button>
           </div>
         ))}
+        <h1>Hello</h1>
       </div>
     );
   }
