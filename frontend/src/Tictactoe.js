@@ -106,7 +106,7 @@ class Game extends React.Component {
             return winningLines;
         }
         if(this.state.stepNumber === 9) {
-            const result = "draw";
+            const result = ["draw"];
             return result;
         }
         return null;
@@ -182,11 +182,18 @@ class Game extends React.Component {
         const movesReversed = moves.slice().reverse();
 
         let status;
-        //console.log(winner);
-        if(winner) {
-            status = 'Winner: ' + (this.state.xIsNext ? 'O' : 'X');
-        } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        console.log(winner);
+        if(!winner){
+            //if calculate winner returns null then just show who's playing next, i.e. no winners or draw
+            status='Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
+        else if(winner.toString() ==="draw"){
+            //if calculate winner returns ["draw"] then draw is detected
+            status = 'Winner: Draw';
+        }
+        else {
+            //if calculatewinner returns as something other than null or ["draw"] then there must have been a win
+            status = 'Winner: ' + (this.state.xIsNext ? 'O' : 'X')
         }
 
       return (
