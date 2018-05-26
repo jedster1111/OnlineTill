@@ -33,8 +33,6 @@ class Board extends React.Component {
     }
 
     render() {
-        
-
         return (
         /* Old hardcoded board */
         /*
@@ -95,6 +93,7 @@ class Game extends React.Component {
             squaresClicked: [],
             stepNumber: 0,
             xIsNext: true,
+            descending: true,
         };
     }
 
@@ -117,6 +116,13 @@ class Game extends React.Component {
         });
     }
 
+    toggleClick () {
+        const toggleSwitch = this.state.descending ? false : true;
+        this.setState({
+            descending: toggleSwitch,
+        });
+    }
+
     jumpTo(step){
         this.setState({
             stepNumber: step,
@@ -130,11 +136,12 @@ class Game extends React.Component {
     }
 
     render() {
+        console.log(this.state);
         const history = this.state.history;
         const squaresClicked = this.state.squaresClicked;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
-
+        const toggleClassNames = 'toggle' + (this.state.descending ? ' descending' : ' ascending');
         const moves = history.map((step,move) => {
             const position = this.calculateRowCol(squaresClicked[move-1]);
             const desc = move ?
@@ -156,6 +163,8 @@ class Game extends React.Component {
                 );
             }
         });
+        //slice is necesary to create copy of moves so the original array isn't modified
+        const movesReversed = moves.slice().reverse();
 
         let status;
         if(winner) {
@@ -174,7 +183,8 @@ class Game extends React.Component {
           </div>
           <div className="game-info">
             <div>{status}</div>
-            <ol>{moves}</ol>
+            <div className={toggleClassNames} onClick={() => this.toggleClick()}></div>
+            <ol>{this.state.descending ? moves : movesReversed}</ol>
             <div>{this.state.squareClicked}</div>
           </div>
         </div>

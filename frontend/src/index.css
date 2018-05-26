@@ -32,6 +32,21 @@ ol, ul {
   width: 34px;
 }
 
+.toggle {
+  border: 1px solid black;
+  height:15px;
+  width:15px;
+  margin: 5px;
+}
+
+.toggle.descending {
+  background: blue;
+}
+
+.toggle.ascending {
+  background: white;
+}
+
 .square:focus {
   outline: none;
 }
