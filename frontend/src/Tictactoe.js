@@ -57,6 +57,7 @@ class Board extends React.Component {
         </div>
         */
         
+        /* Create table using for loops */
         <div>
             {this.createTable()}
         </div>
