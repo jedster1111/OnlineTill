@@ -15,12 +15,29 @@ class Board extends React.Component {
             <Square
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
+                key={i}
             />
         );
     }
   
+    createTable = () => {
+        let rows = []
+        for(let i=0; i< 3; i++){           
+            let columns =[]
+            for(let j=0; j<3;j++){
+                columns.push(this.renderSquare(j+(i*3)));
+            }
+            rows.push(<div className="board-row" key={i}>{columns}</div>)
+        }
+        return rows;
+    }
+
     render() {
-      return (
+        
+
+        return (
+        /* Old hardcoded board */
+        /*
         <div>
           <div className="board-row">
             {this.renderSquare(0)}
@@ -37,6 +54,11 @@ class Board extends React.Component {
             {this.renderSquare(7)}
             {this.renderSquare(8)}
           </div>
+        </div>
+        */
+        
+        <div>
+            {this.createTable()}
         </div>
       );
     }
@@ -117,7 +139,7 @@ class Game extends React.Component {
             const desc = move ?
                 'Go to move #' + move + ' : ' + position[0] + ',' + position[1] :
                 'Go to game start';
-            var isCurrentMove = this.state.stepNumber == move;
+            var isCurrentMove = this.state.stepNumber === move;
             if(isCurrentMove){
                 return (
                     <li key={move}>
