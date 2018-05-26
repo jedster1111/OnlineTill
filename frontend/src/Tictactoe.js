@@ -182,14 +182,13 @@ class Game extends React.Component {
         const movesReversed = moves.slice().reverse();
 
         let status;
-        console.log(winner);
         if(!winner){
             //if calculate winner returns null then just show who's playing next, i.e. no winners or draw
             status='Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
         else if(winner.toString() ==="draw"){
             //if calculate winner returns ["draw"] then draw is detected
-            status = 'Winner: Draw';
+            status = 'The game is a Draw';
         }
         else {
             //if calculatewinner returns as something other than null or ["draw"] then there must have been a win
