@@ -1,8 +1,10 @@
 import React from 'react';
 
 function Square(props) {
+    const merged = [].concat.apply([], props.winningLines);
+    const className = "square" + (merged.includes(props.id) ? ' winner' : '')
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className={className} onClick={props.onClick}>
             {props.value}
         </button>
     );
@@ -15,6 +17,8 @@ class Board extends React.Component {
             <Square
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
+                winningLines={this.props.winningLines}
+                id={i}
                 key={i}
             />
         );
@@ -74,6 +78,7 @@ class Game extends React.Component {
             stepNumber: 0,
             xIsNext: true,
             descending: true,
+            winningLines: [],
         };
     }
 
@@ -88,11 +93,17 @@ class Game extends React.Component {
           [0, 4, 8],
           [2, 4, 6],
         ];
+        const winningLines = [];
         for (let i = 0; i < lines.length; i++) {
           const [a, b, c] = lines[i];
           if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            //return lines[i];
+            winningLines.push(lines[i]);
+            //console.log(winningLines);
           }
+        }
+        if(winningLines.length !== 0){
+            return winningLines;
         }
         if(this.state.stepNumber === 9) {
             const result = "draw";
@@ -144,6 +155,7 @@ class Game extends React.Component {
         const squaresClicked = this.state.squaresClicked;
         const current = history[this.state.stepNumber];
         const winner = this.calculateWinner(current.squares);
+        console.log(winner);
         const toggleClassNames = 'toggle' + (this.state.descending ? ' descending' : ' ascending');
         const moves = history.map((step,move) => {
             const position = this.calculateRowCol(squaresClicked[move-1]);
@@ -170,8 +182,9 @@ class Game extends React.Component {
         const movesReversed = moves.slice().reverse();
 
         let status;
+        //console.log(winner);
         if(winner) {
-            status = 'Winner: ' + winner;
+            status = 'Winner: ' + (this.state.xIsNext ? 'O' : 'X');
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
@@ -182,6 +195,7 @@ class Game extends React.Component {
             <Board 
                 squares={current.squares}
                 onClick = {(i) => this.handleClick(i)}
+                winningLines = {winner}
             />
           </div>
           <div className="game-info">
