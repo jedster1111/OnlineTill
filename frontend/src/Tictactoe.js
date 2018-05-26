@@ -155,7 +155,7 @@ class Game extends React.Component {
         const squaresClicked = this.state.squaresClicked;
         const current = history[this.state.stepNumber];
         const winner = this.calculateWinner(current.squares);
-        console.log(winner);
+        //console.log(winner);
         const toggleClassNames = 'toggle' + (this.state.descending ? ' descending' : ' ascending');
         const moves = history.map((step,move) => {
             const position = this.calculateRowCol(squaresClicked[move-1]);
