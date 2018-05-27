@@ -12,6 +12,7 @@ ReactDOM.render(
     <div>
         <Clock />
         <Game />
+        <Clock />
         <App />   
     </div>
     , document.getElementById('root'));

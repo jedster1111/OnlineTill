@@ -133,10 +133,15 @@ class Game extends React.Component {
     }
 
     toggleClick () {
+        /*
         const toggleSwitch = this.state.descending ? false : true;
         this.setState({
             descending: toggleSwitch,
         });
+        */
+       this.setState(prevState => ({
+           descending: !prevState.descending,
+       }));
     }
 
     jumpTo(step){
