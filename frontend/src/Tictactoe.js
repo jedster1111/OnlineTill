@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 function Square(props) {
     const merged = [].concat.apply([], props.winningLines);
     const className = "square" + (merged.includes(props.id) ? ' winner' : '')
