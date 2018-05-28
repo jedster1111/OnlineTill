@@ -4,14 +4,14 @@ import './index.css';
 import App from './App';
 import Game from './Tictactoe';
 import Clock from './Clock';
-import NameForm from './Nameform';
+import ExampleForm from './Exampleform';
 import registerServiceWorker from './registerServiceWorker';
 
 
 
 ReactDOM.render(
     <div>
-        <NameForm />
+        <ExampleForm />
         <Clock />
         <Game />
         <App />   
