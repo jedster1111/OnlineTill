@@ -4,12 +4,12 @@ class ExampleForm extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            agreed: true,
-            value: '',
+            agreed: false,
+            essay: '',
+            age: '',
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -21,10 +21,6 @@ class ExampleForm extends React.Component{
         this.setState({
             [name]: value,
         });
-    }
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
     }
 
     handleSubmit(event) {
@@ -44,12 +40,22 @@ class ExampleForm extends React.Component{
                             type="checkbox"
                             checked={this.state.agreed}
                             onChange={this.handleInputChange} />
-                    </label>
-                    <br/>
+                    </label> <br/>
                     <label>
                         Essay:<br/>
-                        <textarea name="essay" value={this.state.essay} onChange={this.handleInputChange} />
-                    </label>
+                        <textarea
+                            name="essay"
+                            value={this.state.essay}
+                            onChange={this.handleInputChange} />
+                    </label> <br/>
+                    <label>
+                        Age:<br/>
+                        <input
+                            name="age"
+                            type="number"
+                            value={this.state.age}
+                            onChange={this.handleInputChange} />
+                    </label> <br/>
                     <input type="submit" value="Submit" />
                 </form>
         );
