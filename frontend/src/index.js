@@ -5,12 +5,14 @@ import App from './App';
 import Game from './Tictactoe';
 import Clock from './Clock';
 import ExampleForm from './Exampleform';
+import Calculator from './Tempcalculator';
 import registerServiceWorker from './registerServiceWorker';
 
 
 
 ReactDOM.render(
     <div>
+        <Calculator />
         <ExampleForm />
         <Clock />
         <Game />
