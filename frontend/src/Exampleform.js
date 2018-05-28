@@ -32,6 +32,7 @@ class ExampleForm extends React.Component{
 
     render() {
         return (
+            <fieldset>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                     I agree to sell my soul <br/>
@@ -58,6 +59,7 @@ class ExampleForm extends React.Component{
                     </label> <br/>
                     <input type="submit" value="Submit" />
                 </form>
+            </fieldset>
         );
     }
 }
