@@ -27,8 +27,8 @@ const getApiAndEmit = async socket => {
         );
         socket.emit("FromAPI", res.data.currently.temperature);
     } catch (error) {
-        console.error('Error: ${error.code}');
+        console.error(`Error: ${error.code}`);
     }
 };
 
-server.listen(port, () => console.log('Listening on port ${port}'));
+server.listen(port, () => console.log(`Listening on port ${port}`));
