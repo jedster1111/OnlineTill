@@ -3,7 +3,7 @@ import React from 'react';
 class Square extends React.Component {
     render() {
         return(
-            <button className = "square">
+            <button className = "square" onClick={this.props.onClick}>
                 {this.props.value}
             </button>
         );
@@ -16,6 +16,7 @@ class Board extends React.Component {
             <Square 
                 value = {this.props.squares[i]}
                 key={i}
+                onClick = {() => this.props.onClick(i)}
             />
         )
     }
@@ -97,7 +98,7 @@ class Tictactoe extends React.Component {
         this.handleLobbyNameChange = this.handleLobbyNameChange.bind(this);
         this.handleLobbyNameSubmit = this.handleLobbyNameSubmit.bind(this);
         this.state = {
-            squares: Array(9).fill("X"),
+            squares: Array(9).fill(null),
             isXNext: true,
             lobbyName: "Test",
             lobbyNameConfirmed:"Test",
@@ -105,7 +106,12 @@ class Tictactoe extends React.Component {
     }
 
     handleSquareClick(i) {
-        
+        const squares = this.state.squares.slice();
+        squares[i] = this.state.isXNext ? 'X' : 'O';
+        this.setState(prevState => ({
+            squares: squares,
+            isXNext: !prevState.isXNext,
+        }));
     }
 
     handleLobbyNameChange(lobbyName){
@@ -128,6 +134,7 @@ class Tictactoe extends React.Component {
                 <div className="game-board">
                     <Board
                         squares = {squares}
+                        onClick = {this.handleSquareClick}
                     />
                 </div>
                 <div className="game-info">
