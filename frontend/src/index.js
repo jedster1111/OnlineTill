@@ -6,12 +6,14 @@ import Game from './Tictactoe';
 import Clock from './Clock';
 import ExampleForm from './Exampleform';
 import Calculator from './Tempcalculator';
+import FlorenceTemperature from './socketTest';
 import registerServiceWorker from './registerServiceWorker';
 
 
 
 ReactDOM.render(
     <div>
+        <FlorenceTemperature />
         <Calculator />
         <ExampleForm />
         <Clock />
