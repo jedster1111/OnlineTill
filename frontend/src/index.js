@@ -13,7 +13,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
     <div>
-        <FlorenceTemperature />
         <Calculator />
         <ExampleForm />
         <Clock />
