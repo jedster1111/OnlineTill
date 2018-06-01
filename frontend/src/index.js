@@ -13,7 +13,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
     <div>
-        <Tictactoe />
+        <Tictactoe /> <br/>
         <Calculator />
         <ExampleForm />
         <Clock />

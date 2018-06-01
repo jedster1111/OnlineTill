@@ -12,8 +12,6 @@ app.use(index);
 const server = http.createServer(app);
 const io = socketIo(server);
 
-let interval;
-
 io.on("connection", socket => {
     console.log("New client connected");
     if(interval){
