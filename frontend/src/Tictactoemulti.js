@@ -115,13 +115,29 @@ class Tictactoe extends React.Component {
             myTeam: "X",
             lobbyName: "Test",
             lobbyNameConfirmed:"Test",
+            socket: null,
         };
     }
 
     componentDidMount() {
+        this.initSocket();
+        //const {endpoint} = this.state;
+        //const socket = socketIOClient(endpoint);
+        //socket.on("roomChanged", function(){console.log("Room was changed")});
+    }
+
+    initSocket = () => {
         const {endpoint} = this.state;
         const socket = socketIOClient(endpoint);
-        socket.on("roomChanged", function(){console.log("Room was changed")});
+        //const room = this.state.lobbyNameConfirmed;
+
+        socket.on('connect', ()=>{
+            console.log("Connected");
+            socket.on('changeRoom', ()=>{
+                console.log("Changing Rooms");
+            })
+        })
+        this.setState({socket});
     }
 
     handleResetButton() {
@@ -150,7 +166,6 @@ class Tictactoe extends React.Component {
                 winningLines.push(lines[i]);
             }
         }
-        console.log(winningLines);
         return winningLines;
     }
 
@@ -198,6 +213,9 @@ class Tictactoe extends React.Component {
 
     joinRoom(){
         //this.socket.emit("subscribe", { room: "global"});
+        const {socket} = this.state;
+        const room = this.state.lobbyNameConfirmed;
+        socket.emit("joinRoom", {room: room});
         console.log("just emitted subscribe");
     }
 

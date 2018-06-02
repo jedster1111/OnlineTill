@@ -15,10 +15,14 @@ const io = socketIo(server);
 let interval;
 
 io.on("connection", socket => {
-    console.log("New client connected");
+    console.log("New client connected ", socket.id);
     socket.on("disconnect", function(){
-        console.log("Client disconnected");
+        console.log("Client disconnected ", socket.id);
     });
+    socket.on("joinRoom", (room) => {
+        socket.join(room);
+        console.log("Just joined ", room);
+    })
 });
 
 const getApiAndEmit = async socket => {
