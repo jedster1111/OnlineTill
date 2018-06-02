@@ -21,14 +21,19 @@ io.on("connection", socket => {
     socket.on("disconnect", function(){
         console.log("Client disconnected ", socket.id);
     });
-    socket.on("joinRoom", (room) => {
-        socket.room = room;
-        socket.join(room);       
-        socket.to(room).emit('justJoined', console.log("Just joined ", socket.room));
-    })
+    socket.on("joinRoom", (newRoom) => {
+        const oldRoom = socket.room;
+        socket.room = newRoom;
+        socket.leave(oldRoom);
+        socket.join(socket.room);       
+        socket.to(newRoom).emit('justJoined', console.log(socket.id, "Just joined ", socket.room));
+    });
     socket.on("newSquares", (squares) => {
         socket.to(socket.room).emit('newSquares', squares);
-    })
+    });
+    socket.on("reset", () =>{
+        socket.to(socket.room).emit('reset');
+    });
 });
 
 const getApiAndEmit = async socket => {

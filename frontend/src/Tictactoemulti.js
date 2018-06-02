@@ -108,7 +108,7 @@ class Tictactoe extends React.Component {
         this.handleResetButton = this.handleResetButton.bind(this);
         this.state = {
             response:false,
-            endpoint: "http://127.0.0.1:4001",
+            endpoint: "192.168.197.14:4001",
             squares: Array(9).fill(null),
             isXNext: true,
             isWinner: false,
@@ -129,24 +129,39 @@ class Tictactoe extends React.Component {
     initSocket = () => {
         const {endpoint} = this.state;
         const socket = socketIOClient(endpoint);
+        var {winner} = this.state;
         //const room = this.state.lobbyNameConfirmed;
 
         socket.on('connect', ()=>{
             console.log("Connected");
+            socket.emit('joinRoom', this.state.lobbyNameConfirmed);
         })
         socket.on('justJoined', function(){
             console.log("someone joined us");
         });
         socket.on('newSquares', (squares) => {
+            const winningLines=this.returnWinningLines(squares);
+            if(winningLines.length > 0){
+                this.setState({isWinner: true});
+            } 
             this.setState(prevState => ({
                 squares: squares,
                 isXNext: !prevState.isXNext,
             }));
-        })
+        });
+        socket.on('reset', () => {
+            this.setState({
+                squares: Array(9).fill(null),
+                isXNext: true,
+                isWinner:false,
+            });
+        });
         this.setState({socket});
     }
 
     handleResetButton() {
+        const {socket} = this.state;
+        socket.emit('reset');
         this.setState({
             squares: Array(9).fill(null),
             isXNext: true,
@@ -188,7 +203,7 @@ class Tictactoe extends React.Component {
         const nextPlayer = isXNext ? 'X' : 'O';
         const squares = this.state.squares.slice();
         
-        if(this.state.isWinner || squares[i] || myTeam !== nextPlayer){
+        if(this.state.isWinner || squares[i]){
             return; //game is won or square already has a value so do nothing
         }        
         squares[i] = nextPlayer;
