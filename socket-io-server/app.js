@@ -14,14 +14,20 @@ const io = socketIo(server);
 
 let interval;
 
+
 io.on("connection", socket => {
+    const room = null;
     console.log("New client connected ", socket.id);
     socket.on("disconnect", function(){
         console.log("Client disconnected ", socket.id);
     });
     socket.on("joinRoom", (room) => {
-        socket.join(room);
-        console.log("Just joined ", room);
+        socket.room = room;
+        socket.join(room);       
+        socket.to(room).emit('justJoined', console.log("Just joined ", socket.room));
+    })
+    socket.on("newSquares", (squares) => {
+        socket.to(socket.room).emit('newSquares', squares);
     })
 });
 

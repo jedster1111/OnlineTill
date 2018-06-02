@@ -133,9 +133,15 @@ class Tictactoe extends React.Component {
 
         socket.on('connect', ()=>{
             console.log("Connected");
-            socket.on('changeRoom', ()=>{
-                console.log("Changing Rooms");
-            })
+        })
+        socket.on('justJoined', function(){
+            console.log("someone joined us");
+        });
+        socket.on('newSquares', (squares) => {
+            this.setState(prevState => ({
+                squares: squares,
+                isXNext: !prevState.isXNext,
+            }));
         })
         this.setState({socket});
     }
@@ -178,7 +184,7 @@ class Tictactoe extends React.Component {
     }
 
     handleSquareClick(i) {
-        const {isXNext, myTeam} = this.state;
+        const {isXNext, myTeam, socket} = this.state;
         const nextPlayer = isXNext ? 'X' : 'O';
         const squares = this.state.squares.slice();
         
@@ -190,6 +196,7 @@ class Tictactoe extends React.Component {
             squares: squares,
             isXNext: !prevState.isXNext,
         }));
+        socket.emit('newSquares', squares);
         const winningLines = this.returnWinningLines(squares);
         if(winningLines.length > 0){
             this.setState({
@@ -215,7 +222,7 @@ class Tictactoe extends React.Component {
         //this.socket.emit("subscribe", { room: "global"});
         const {socket} = this.state;
         const room = this.state.lobbyNameConfirmed;
-        socket.emit("joinRoom", {room: room});
+        socket.emit("joinRoom", room);
         console.log("just emitted subscribe");
     }
 
