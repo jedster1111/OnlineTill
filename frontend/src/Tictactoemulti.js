@@ -104,6 +104,7 @@ class Tictactoe extends React.Component {
         this.handleLobbyNameSubmit = this.handleLobbyNameSubmit.bind(this);
         this.returnWinningLines = this.returnWinningLines.bind(this);
         this.calculateWinner = this.calculateWinner.bind(this);
+        this.joinRoom = this.joinRoom.bind(this);
         this.handleResetButton = this.handleResetButton.bind(this);
         this.state = {
             response:false,
@@ -115,6 +116,12 @@ class Tictactoe extends React.Component {
             lobbyName: "Test",
             lobbyNameConfirmed:"Test",
         };
+    }
+
+    componentDidMount() {
+        const {endpoint} = this.state;
+        const socket = socketIOClient(endpoint);
+        socket.on("roomChanged", function(){console.log("Room was changed")});
     }
 
     handleResetButton() {
@@ -183,10 +190,15 @@ class Tictactoe extends React.Component {
 
     handleLobbyNameSubmit(event){
         alert("You submitted: " + this.state.lobbyName);
-        this.setState(prevState => ({
+        this.setState({
             lobbyNameConfirmed: this.state.lobbyName,
-        }));
+        }, this.joinRoom);
         event.preventDefault();
+    }
+
+    joinRoom(){
+        //this.socket.emit("subscribe", { room: "global"});
+        console.log("just emitted subscribe");
     }
 
     render(){
