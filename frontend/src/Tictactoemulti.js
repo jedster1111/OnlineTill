@@ -1,4 +1,5 @@
 import React from 'react';
+import socketIOClient from "socket.io-client";
 
 class Square extends React.Component {
     render() {
@@ -105,9 +106,12 @@ class Tictactoe extends React.Component {
         this.calculateWinner = this.calculateWinner.bind(this);
         this.handleResetButton = this.handleResetButton.bind(this);
         this.state = {
+            response:false,
+            endpoint: "http://127.0.0.1:4001",
             squares: Array(9).fill(null),
             isXNext: true,
             isWinner: false,
+            myTeam: "X",
             lobbyName: "Test",
             lobbyNameConfirmed:"Test",
         };
@@ -152,12 +156,14 @@ class Tictactoe extends React.Component {
     }
 
     handleSquareClick(i) {
+        const {isXNext, myTeam} = this.state;
+        const nextPlayer = isXNext ? 'X' : 'O';
         const squares = this.state.squares.slice();
-        const {isXNext} = this.state;
-        if(this.state.isWinner || squares[i]){
-            return; //game is won or square already has a value
+        
+        if(this.state.isWinner || squares[i] || myTeam !== nextPlayer){
+            return; //game is won or square already has a value so do nothing
         }        
-        squares[i] = isXNext ? 'X' : 'O';
+        squares[i] = nextPlayer;
         this.setState(prevState => ({
             squares: squares,
             isXNext: !prevState.isXNext,
@@ -185,7 +191,7 @@ class Tictactoe extends React.Component {
 
     render(){
         let status = null;
-        let myTeam = "X";
+        let {myTeam} = this.state;
         if(this.state.isWinner){
             status = this.calculateWinner() + " is the winner!";
         } else if (!this.state.squares.includes(null)) {
