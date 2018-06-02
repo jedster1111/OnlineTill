@@ -85,7 +85,11 @@ class GameInfo extends React.Component {
         const {status, myTeam} = this.props;
         return(
             <div>
-                {status}
+                <h3>
+                    You are player {myTeam} <br/>
+                    {status}
+                </h3>
+                <button onClick = {this.props.onResetClick}>reset</button>
             </div>
         );
     }
@@ -97,21 +101,74 @@ class Tictactoe extends React.Component {
         this.handleSquareClick = this.handleSquareClick.bind(this);
         this.handleLobbyNameChange = this.handleLobbyNameChange.bind(this);
         this.handleLobbyNameSubmit = this.handleLobbyNameSubmit.bind(this);
+        this.returnWinningLines = this.returnWinningLines.bind(this);
+        this.calculateWinner = this.calculateWinner.bind(this);
+        this.handleResetButton = this.handleResetButton.bind(this);
         this.state = {
             squares: Array(9).fill(null),
             isXNext: true,
+            isWinner: false,
             lobbyName: "Test",
             lobbyNameConfirmed:"Test",
         };
     }
 
+    handleResetButton() {
+        this.setState({
+            squares: Array(9).fill(null),
+            isXNext: true,
+            isWinner: false,
+        });
+    }
+
+    returnWinningLines(squares) {
+        const lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+        const winningLines = [];
+        for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = lines[i];
+            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+                winningLines.push(lines[i]);
+            }
+        }
+        console.log(winningLines);
+        return winningLines;
+    }
+
+    calculateWinner() {
+        let winner = null;
+        if(this.state.isWinner){
+            winner = this.state.isXNext ? "O" : "X";
+        }
+        return winner;
+    }
+
     handleSquareClick(i) {
         const squares = this.state.squares.slice();
-        squares[i] = this.state.isXNext ? 'X' : 'O';
+        const {isXNext} = this.state;
+        if(this.state.isWinner || squares[i]){
+            return; //game is won or square already has a value
+        }        
+        squares[i] = isXNext ? 'X' : 'O';
         this.setState(prevState => ({
             squares: squares,
             isXNext: !prevState.isXNext,
         }));
+        const winningLines = this.returnWinningLines(squares);
+        if(winningLines.length > 0){
+            this.setState({
+                isWinner: true,
+            });
+            return;
+        }
     }
 
     handleLobbyNameChange(lobbyName){
@@ -127,7 +184,16 @@ class Tictactoe extends React.Component {
     }
 
     render(){
-        const status = "Your turn: " + (this.state.isXNext ? "X" : "O");
+        let status = null;
+        let myTeam = "X";
+        if(this.state.isWinner){
+            status = this.calculateWinner() + " is the winner!";
+        } else if (!this.state.squares.includes(null)) {
+            status = "It's a draw!";
+        } 
+        else {
+            status = "It is " + (this.state.isXNext ? "X" : "O") + "'s turn!";
+        }
         const {squares, lobbyName, lobbyNameConfirmed} = this.state;
         return(
             <div className="game">
@@ -146,6 +212,8 @@ class Tictactoe extends React.Component {
                     />
                     <GameInfo
                         status={status}
+                        myTeam={myTeam}
+                        onResetClick={this.handleResetButton}
                     />
                 </div>
             </div>    
