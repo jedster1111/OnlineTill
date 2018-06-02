@@ -226,7 +226,6 @@ class Tictactoe extends React.Component {
     }
 
     handleLobbyNameSubmit(event){
-        alert("You submitted: " + this.state.lobbyName);
         this.setState({
             lobbyNameConfirmed: this.state.lobbyName,
         }, this.joinRoom);
