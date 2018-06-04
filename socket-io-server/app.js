@@ -13,26 +13,38 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 let interval;
-
+let rooms = [];
+//let data = {squares: Array(9).fill(null), xIsNext: true};
 
 io.on("connection", socket => {
-    const room = null;
+    socket.room = {};
     console.log("New client connected ", socket.id);
     socket.on("disconnect", function(){
         console.log("Client disconnected ", socket.id);
     });
     socket.on("joinRoom", (newRoom) => {
-        const oldRoom = socket.room;
-        socket.room = newRoom;
+        const oldRoom = socket.room.roomName;
+        socket.room.roomName = newRoom;
         socket.leave(oldRoom);
-        socket.join(socket.room);       
-        socket.to(newRoom).emit('justJoined', console.log(socket.id, "Just joined ", socket.room));
+        socket.join(socket.room.roomName);    
+        socket.room.data = null;
+        console.log(oldRoom, socket.room.roomName);
+        if(socket.room.data === null){
+            console.log("I'm resetting room data here")
+            socket.room.data = {squares: Array(9).fill(null), isXNext:true};          
+        }
+        console.log(socket.room);
+   
+        socket.emit('newSquares', socket.room.data);
     });
-    socket.on("newSquares", (squares) => {
-        socket.to(socket.room).emit('newSquares', squares);
+    socket.on("newSquares", (clientData) => {
+        squares = clientData.squares.slice();
+        socket.room.data = clientData;
+        console.log("newsquares", socket.room);
+        socket.to(socket.room.roomName).emit('newSquares', clientData);
     });
     socket.on("reset", () =>{
-        socket.to(socket.room).emit('reset');
+        socket.to(socket.room.roomName).emit('reset');
     });
 });
 

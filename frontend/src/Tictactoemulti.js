@@ -127,7 +127,7 @@ class Tictactoe extends React.Component {
     }
 
     initSocket = () => {
-        const {endpoint} = this.state;
+        const {endpoint, squares} = this.state;
         const socket = socketIOClient(endpoint);
         var {winner} = this.state;
         //const room = this.state.lobbyNameConfirmed;
@@ -136,19 +136,21 @@ class Tictactoe extends React.Component {
             console.log("Connected");
             socket.emit('joinRoom', this.state.lobbyNameConfirmed);
         })
-        socket.on('justJoined', function(){
-            console.log("someone joined us");
-        });
-        socket.on('newSquares', (squares) => {
-            const winningLines=this.returnWinningLines(squares);
+        socket.on('newSquares', (data) => {
+            const winningLines=this.returnWinningLines(data.squares);
             if(winningLines.length > 0){
                 this.setState({isWinner: true});
             } 
-            this.setState(prevState => ({
-                squares: squares,
-                isXNext: !prevState.isXNext,
-            }));
+            this.setState({
+                squares: data.squares,
+                isXNext: data.isXNext,
+            });
         });
+        socket.on('someOneJoined', () => {
+            const data = {squares: this.state.squares, isXNext: this.state.isXNext};
+            socket.emit('startingData', data);
+        })
+
         socket.on('reset', () => {
             this.setState({
                 squares: Array(9).fill(null),
@@ -206,12 +208,15 @@ class Tictactoe extends React.Component {
         if(this.state.isWinner || squares[i]){
             return; //game is won or square already has a value so do nothing
         }        
+        
         squares[i] = nextPlayer;
         this.setState(prevState => ({
             squares: squares,
             isXNext: !prevState.isXNext,
         }));
-        socket.emit('newSquares', squares);
+        const data = {squares: squares, isXNext: isXNext};
+        console.log(data);
+        socket.emit('newSquares', data);
         const winningLines = this.returnWinningLines(squares);
         if(winningLines.length > 0){
             this.setState({
