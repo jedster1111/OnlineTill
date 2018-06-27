@@ -106,6 +106,8 @@ class Tictactoe extends React.Component {
         this.calculateWinner = this.calculateWinner.bind(this);
         this.joinRoom = this.joinRoom.bind(this);
         this.handleResetButton = this.handleResetButton.bind(this);
+        this.isWinner = this.isWinner.bind(this);
+
         this.state = {
             response:false,
             endpoint: "192.168.197.14:4001",
@@ -170,6 +172,12 @@ class Tictactoe extends React.Component {
             isWinner: false,
         });
     }
+
+    isWinner(squares) {
+        const winningLines = this.returnWinningLines(squares);
+        const isWinner = (winningLines.length > 0);
+        return isWinner;
+        }
 
     returnWinningLines(squares) {
         const lines = [
